@@ -9,31 +9,33 @@ export default {
     extend: {
       colors: {
         dark: {
-          sidebar: '#0D1117',
-          main: '#161B22',
-          card: '#1C2128',
-          border: '#30363D',
-          text: '#E6EDF3',
-          subtext: '#8B949E'
+          sidebar: '#0f172a',
+          main: '#080d16',
+          card: '#1e293b',
+          border: '#334155',
+          text: '#f8fafc',
+          subtext: '#94a3b8'
         },
         light: {
-          sidebar: '#1E293B',
-          main: '#F8FAFC',
-          card: '#FFFFFF',
-          border: '#E2E8F0',
-          text: '#0F172A',
-          subtext: '#64748B'
+          sidebar: '#f8fafc',
+          main: '#f1f5f9',
+          card: '#ffffff',
+          border: '#cbd5e1',
+          text: '#0f172a',
+          subtext: '#64748b'
         },
         accent: {
-          primary: '#1E90FF',
-          success: '#10B981',
-          warning: '#F59E0B',
-          danger: '#EF4444',
-          purple: '#8B5CF6'
+          primary: '#ff6b35', // Cyber Orange
+          success: '#2ec4b6', // Teal Accent
+          warning: '#f59e0b',
+          danger: '#ef4444',
+          purple: '#818cf8'
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Roboto', 'sans-serif'],
+        mono: ['Fira Code', 'monospace'],
+        hand: ['Caveat', 'cursive'],
       }
     },
   },

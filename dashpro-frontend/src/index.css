@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fira+Code:wght@400;500;600&family=Roboto:wght@300;400;500;700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -29,6 +29,36 @@
   
   .text-sub {
     @apply text-light-subtext dark:text-dark-subtext transition-colors duration-200;
+  }
+  
+  /* Post-It Note styles */
+  .postit {
+    @apply bg-[#ffeb3b] text-[#1c1917] p-5 w-full min-h-[240px] relative transition-transform duration-200 select-none;
+    transform: rotate(-1.5deg);
+    border-radius: 1px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .postit:hover {
+    transform: scale(1.03) rotate(0.5deg);
+  }
+  
+  .postit::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-3 bg-black/5;
+  }
+  
+  .postit-title {
+    @apply font-hand text-2xl font-bold border-b border-dashed border-black/15 pb-1 mb-3;
+  }
+  
+  .postit-body {
+    @apply font-hand text-lg leading-relaxed;
+  }
+
+  /* Custom terminal */
+  .terminal-custom {
+    @apply bg-[#05080e] border border-light-border dark:border-dark-border rounded font-mono text-xs overflow-hidden shadow-inner;
   }
   
   /* Scrollbar styling */
