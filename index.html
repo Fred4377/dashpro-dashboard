@@ -3,49 +3,875 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashPro Dashboard</title>
+    <meta name="description" content="DashPro Dashboard — A modern, flat-UI developer admin panel mockup featuring live log feeds, CSS metrics visualization, and post-it notes.">
+    <meta name="keywords" content="DashPro, dashboard, admin panel, analytics, Fira Code, Cyberpunk Slate">
+    <meta name="author" content="Fred Otieno">
+    <title>DashPro Dashboard — Developer Admin Control Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fira+Code:wght@400;500;600&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
-        :root { --bg: #0f172a; --text: #f8fafc; --accent: #10b981; }
-        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }
-        * { box-sizing: border-box; }
-        
-        /* Alternating Colors */
-        section:nth-of-type(even) { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); box-shadow: inset 0 0 50px rgba(0,0,0,0.3); }
-        section:nth-of-type(odd) { background: var(--bg); }
-        
-        section { padding: 100px 20px; text-align: center; }
-        h1 { font-size: 3.5rem; margin-bottom: 20px; }
-        h2 { font-size: 2.5rem; margin-bottom: 20px; color: var(--accent); }
-        p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; color: #94a3b8; }
-        .btn { display: inline-block; padding: 15px 30px; background: var(--accent); color: white; text-decoration: none; border-radius: 30px; font-weight: 600; transition: transform 0.2s; }
-        .btn:hover { transform: translateY(-3px); }
-        
-        .grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
-        .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 300px; }
-        .card h3 { color: var(--accent); }
+        /* ===== Cyberpunk Slate Design System ===== */
+        :root {
+            --bg-darker: #080d16;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --border-slate: #334155;
+            --accent-orange: #ff6b35;
+            --accent-orange-glow: rgba(255, 107, 53, 0.25);
+            --accent-teal: #2ec4b6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --font-ui: 'Roboto', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --font-hand: 'Caveat', cursive;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            background: var(--bg-darker);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== Header / Navbar ===== */
+        .navbar {
+            border-bottom: 1px solid var(--border-slate);
+            background: var(--bg-dark);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--accent-orange);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo span {
+            color: var(--text-primary);
+        }
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border: 1px solid var(--border-slate);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all var(--transition);
+        }
+        .github-link:hover {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            padding: 80px 0 40px;
+            text-align: center;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-slate);
+        }
+        .hero-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-teal);
+            background: rgba(46, 196, 182, 0.1);
+            border: 1px solid rgba(46, 196, 182, 0.2);
+            padding: 4px 12px;
+            border-radius: 2px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background: var(--accent-orange);
+            color: #fff;
+            font-weight: 700;
+            border-radius: 4px;
+            box-shadow: 0 4px 14px var(--accent-orange-glow);
+            transition: all var(--transition);
+        }
+        .btn-primary:hover {
+            background: #ff5514;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+        }
+
+        /* ===== Mockup Dashboard Preview ===== */
+        .dashboard-preview {
+            padding: 60px 0;
+        }
+        .browser-frame {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-slate);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .browser-header {
+            background: #0b111e;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-slate);
+        }
+        .window-dots {
+            display: flex;
+            gap: 6px;
+            margin-right: 20px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+        .browser-url {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-slate);
+            padding: 6px 16px;
+            border-radius: 4px;
+            flex: 1;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            max-width: 500px;
+        }
+
+        /* Dashboard layout */
+        .db-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: 580px;
+        }
+
+        /* Sidebar */
+        .db-sidebar {
+            background: #0c1322;
+            border-right: 1px solid var(--border-slate);
+            padding: 24px 16px;
+        }
+        .sidebar-menu {
+            list-style: none;
+        }
+        .sidebar-item {
+            margin-bottom: 8px;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-radius: 4px;
+            transition: all var(--transition);
+        }
+        .sidebar-link.active {
+            background: rgba(255, 107, 53, 0.08);
+            color: var(--accent-orange);
+            border-left: 3px solid var(--accent-orange);
+        }
+        .sidebar-link:hover:not(.active) {
+            background: rgba(255,255,255,0.02);
+            color: var(--text-primary);
+        }
+
+        /* Main Area */
+        .db-main {
+            padding: 24px;
+            background: var(--bg-darker);
+            overflow-y: auto;
+        }
+        .db-title-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .db-title-bar h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .db-badge {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border: 1px solid var(--border-slate);
+            background: var(--bg-dark);
+            color: var(--accent-teal);
+            border-radius: 4px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-slate);
+            padding: 16px;
+            border-radius: 4px;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .stat-val {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .stat-trend {
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .trend-up { color: var(--accent-teal); }
+        .trend-down { color: #ef4444; }
+
+        /* Widgets Section */
+        .widgets-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 18px;
+        }
+
+        /* CSS Bar Chart Widget */
+        .widget-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-slate);
+            border-radius: 4px;
+            padding: 20px;
+        }
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .widget-header h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 160px;
+            padding-top: 20px;
+            border-bottom: 1px solid var(--border-slate);
+            border-left: 1px solid var(--border-slate);
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+        .chart-bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .chart-bar {
+            width: 32px;
+            background: var(--accent-orange);
+            border-radius: 2px 2px 0 0;
+            position: relative;
+            transition: all var(--transition);
+            cursor: pointer;
+        }
+        .chart-bar:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+        }
+        .chart-bar-tooltip {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-darker);
+            border: 1px solid var(--border-slate);
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 0.65rem;
+            font-family: var(--font-mono);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+        }
+        .chart-bar:hover .chart-bar-tooltip {
+            opacity: 1;
+        }
+        .chart-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Post-It Widget */
+        .postit-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        .postit {
+            background: #ffeb3b;
+            color: #1c1917;
+            padding: 20px;
+            border-radius: 1px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 260px;
+            min-height: 240px;
+            transform: rotate(-1.5deg);
+            transition: transform 0.2s ease;
+            position: relative;
+        }
+        .postit:hover {
+            transform: scale(1.03) rotate(0.5deg);
+        }
+        .postit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: rgba(0,0,0,0.04);
+        }
+        .postit-title {
+            font-family: var(--font-hand);
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-bottom: 1px dashed rgba(0,0,0,0.15);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+        .postit-body {
+            font-family: var(--font-hand);
+            font-size: 1.15rem;
+            line-height: 1.4;
+        }
+        .postit-body ul {
+            list-style: none;
+        }
+        .postit-body li {
+            margin-bottom: 6px;
+        }
+
+        /* System Logs Terminal Widget */
+        .logs-section {
+            grid-column: 1 / -1;
+            margin-top: 18px;
+        }
+        .terminal {
+            background: #05080e;
+            border: 1px solid var(--border-slate);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+        .terminal-header {
+            background: #0e1624;
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-slate);
+        }
+        .terminal-title {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .terminal-title i {
+            color: var(--accent-orange);
+        }
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .terminal-body {
+            padding: 16px;
+            height: 180px;
+            overflow-y: auto;
+            color: #10b981;
+            scroll-behavior: smooth;
+        }
+        .log-line {
+            margin-bottom: 6px;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        .log-time {
+            color: var(--text-muted);
+        }
+        .log-tag {
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+        .log-success {
+            color: var(--accent-teal);
+        }
+        .log-info {
+            color: #3b82f6;
+        }
+
+        /* ===== Features Grid ===== */
+        .features {
+            padding: 80px 0;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-slate);
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-slate);
+            padding: 30px;
+            border-radius: 4px;
+            transition: border-color var(--transition);
+        }
+        .feature-card:hover {
+            border-color: var(--accent-orange);
+        }
+        .feature-card i {
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+            margin-bottom: 16px;
+        }
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border-slate);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .footer-logo {
+            font-family: var(--font-mono);
+            color: var(--accent-orange);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .footer-logo span { color: #fff; }
+        .footer a {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .footer a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* ===== Responsive Layout ===== */
+        @media (max-width: 900px) {
+            .db-layout {
+                grid-template-columns: 1fr;
+            }
+            .db-sidebar {
+                display: none;
+            }
+            .widgets-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <section>
-        <h1>DashPro Dashboard</h1>
-        <p>Powerful Admin Dashboard for Modern Teams</p>
-        <a href="https://github.com/Fred4377/dashpro-dashboard" class="btn">View on GitHub</a>
-    </section>
-    <section>
-        <h2>Features</h2>
-        <div class="grid">
-            <div class="card"><h3>Real-time Analytics</h3><p>Experience seamless functionality.</p></div>
-            <div class="card"><h3>User Management</h3><p>Experience seamless functionality.</p></div>
-            <div class="card"><h3>Data Visualization</h3><p>Experience seamless functionality.</p></div>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-terminal"></i>Dash<span>Pro</span>
+            </a>
+            <a href="https://github.com/Fred4377/dashpro-dashboard" target="_blank" rel="noopener noreferrer" class="github-link">
+                <i class="fa-brands fa-github"></i> GitHub Repo
+            </a>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">Utilitarian Developer Admin console</div>
+            <h1>Control Panel For Modern Apps</h1>
+            <p>
+                A flat, slate-themed admin dashboard designed for deep background monitoring,
+                equipped with simulated live terminal feeds, local Nairobi server cron notifications,
+                and built-in developer task organizers.
+            </p>
+            <a href="#preview" class="btn-primary">
+                <i class="fa-solid fa-gauge-high"></i> View Dashboard Console
+            </a>
         </div>
     </section>
-    <section>
-        <h2>Tech Stack</h2>
-        <p>Built with React, Node.js, and modern web technologies.</p>
+
+    <!-- ===== PREVIEW PANEL ===== -->
+    <section class="dashboard-preview" id="preview">
+        <div class="container">
+            <div class="browser-frame">
+                <!-- Browser Header -->
+                <div class="browser-header">
+                    <div class="window-dots">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="browser-url">dashpro-dashboard.fredev.co.ke/console</div>
+                </div>
+
+                <!-- Dashboard Content Area -->
+                <div class="db-layout">
+                    <!-- Sidebar -->
+                    <aside class="db-sidebar">
+                        <ul class="sidebar-menu">
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link active">
+                                    <i class="fa-solid fa-chart-line"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link">
+                                    <i class="fa-solid fa-clock-rotate-left"></i> System Logs
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link">
+                                    <i class="fa-solid fa-server"></i> Servers
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link">
+                                    <i class="fa-solid fa-user-gear"></i> User Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+
+                    <!-- Main content pane -->
+                    <main class="db-main">
+                        <div class="db-title-bar">
+                            <h2>Application System Monitor</h2>
+                            <div class="db-badge"><i class="fa-solid fa-circle" style="color: var(--accent-teal); font-size: 0.55rem; margin-right: 4px;"></i> Live / Production</div>
+                        </div>
+
+                        <!-- Stat Grid -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">Total Users</div>
+                                <div class="stat-val">12,847</div>
+                                <div class="stat-trend trend-up"><i class="fa-solid fa-caret-up"></i> +24% this week</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">STK Push Income</div>
+                                <div class="stat-val">KSh 329,400</div>
+                                <div class="stat-trend trend-up"><i class="fa-solid fa-caret-up"></i> +12% vs yesterday</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Active Orders</div>
+                                <div class="stat-val">3,621</div>
+                                <div class="stat-trend trend-down"><i class="fa-solid fa-caret-down"></i> -2.4% today</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">API Success Rate</div>
+                                <div class="stat-val">99.87%</div>
+                                <div class="stat-trend trend-up"><i class="fa-solid fa-check"></i> Normal threshold</div>
+                            </div>
+                        </div>
+
+                        <!-- Graph & Note widgets -->
+                        <div class="widgets-grid">
+                            <!-- CSS Bar Chart -->
+                            <div class="widget-card">
+                                <div class="widget-header">
+                                    <h3>Weekly Checkout Counts</h3>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted);">Last 5 Days</span>
+                                </div>
+                                <div class="chart-container">
+                                    <div class="chart-bar-wrapper">
+                                        <div class="chart-bar" style="height: 120px;">
+                                            <div class="chart-bar-tooltip">241 Orders</div>
+                                        </div>
+                                        <span class="chart-label">Mon</span>
+                                    </div>
+                                    <div class="chart-bar-wrapper">
+                                        <div class="chart-bar" style="height: 80px;">
+                                            <div class="chart-bar-tooltip">160 Orders</div>
+                                        </div>
+                                        <span class="chart-label">Tue</span>
+                                    </div>
+                                    <div class="chart-bar-wrapper">
+                                        <div class="chart-bar" style="height: 140px;">
+                                            <div class="chart-bar-tooltip">310 Orders</div>
+                                        </div>
+                                        <span class="chart-label">Wed</span>
+                                    </div>
+                                    <div class="chart-bar-wrapper">
+                                        <div class="chart-bar" style="height: 95px;">
+                                            <div class="chart-bar-tooltip">190 Orders</div>
+                                        </div>
+                                        <span class="chart-label">Thu</span>
+                                    </div>
+                                    <div class="chart-bar-wrapper">
+                                        <div class="chart-bar" style="height: 135px;">
+                                            <div class="chart-bar-tooltip">280 Orders</div>
+                                        </div>
+                                        <span class="chart-label">Fri</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Post-It note widget -->
+                            <div class="postit-wrapper">
+                                <div class="postit">
+                                    <div class="postit-title">Todo Tasks:</div>
+                                    <div class="postit-body">
+                                        <ul>
+                                            <li>- Meet Inceptor Institute mentor @ 2PM</li>
+                                            <li>- Fix Firefox CSS chart layout offset</li>
+                                            <li>- Re-check Safaricom Callback response delay</li>
+                                            <li>- Check Nyakach TVC portfolio files</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Logs Terminal console widget -->
+                            <div class="logs-section">
+                                <div class="terminal">
+                                    <div class="terminal-header">
+                                        <div class="terminal-title">
+                                            <i class="fa-solid fa-rectangle-list"></i> Real-time Application Server Logs
+                                        </div>
+                                        <div class="terminal-dots">
+                                            <div class="dot dot-green" style="width: 8px; height: 8px;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="terminal-body" id="logTerminal">
+                                        <!-- Logs are populated by JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
     </section>
-    <section>
-        <p>&copy; 2026 Fred Otieno. Built with ❤️</p>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Utility Features</h2>
+                <p>Designed for flat, lightweight web administration controls without heavy graphic frameworks.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fa-solid fa-code"></i>
+                    <h3>Flat UI Control</h3>
+                    <p>Uses sharp slate borders and solid colors, avoiding slow glassmorphism overlays for rapid rendering.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-terminal"></i>
+                    <h3>Live System Feed</h3>
+                    <p>Monitors background process callbacks, JWT updates, and STK Daraja response codes directly on screen.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-note-sticky"></i>
+                    <h3>Sticky Developer Log</h3>
+                    <p>Built-in visual sticky notes to trace daily workflows, institute tasks, or outstanding bug details.</p>
+                </div>
+            </div>
+        </div>
     </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-terminal"></i>Dash<span>Pro</span>
+            </div>
+            <p style="margin-bottom: 8px;">Built by <a href="https://github.com/Fred4377" target="_blank" rel="noopener noreferrer">Fred Otieno</a></p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 DashPro Dashboard. MIT Licensed Demo Platform.</p>
+        </div>
+    </footer>
+
+    <!-- ===== Live logs generation script ===== -->
+    <script>
+        // Log simulator
+        const logTerminal = document.getElementById('logTerminal');
+        const logEntries = [
+            { tag: "CRON", text: "Database backup completed successfully (124.5 MB)", type: "success" },
+            { tag: "DARAJA-API", text: "Initiating STK Push request to +254712***678", type: "info" },
+            { tag: "DARAJA-API", text: "Callback verified. Payment KSh 39,550 received. Success.", type: "success" },
+            { tag: "AUTH-SERVICE", text: "JWT token signed and emitted for user: admin@shopease.co.ke", type: "info" },
+            { tag: "MONITOR", text: "CPU usage: 14% | RAM allocation: 48% | Temp: 42°C", type: "success" },
+            { tag: "SCHEDULER", text: "Pruning inactive tokens in database. 42 files removed.", type: "info" }
+        ];
+
+        function getTimestamp() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const date = String(now.getDate()).padStart(2, '0');
+            const time = now.toTimeString().split(' ')[0];
+            return `[${year}-${month}-${date} ${time}]`;
+        }
+
+        function addLog(tag, text, type) {
+            const line = document.createElement('div');
+            line.className = 'log-line';
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'log-time';
+            timeSpan.textContent = getTimestamp() + ' ';
+            
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'log-tag';
+            tagSpan.textContent = `[${tag}] `;
+            
+            const textSpan = document.createElement('span');
+            if (type === 'success') textSpan.className = 'log-success';
+            if (type === 'info') textSpan.className = 'log-info';
+            textSpan.textContent = text;
+            
+            line.appendChild(timeSpan);
+            line.appendChild(tagSpan);
+            line.appendChild(textSpan);
+            
+            logTerminal.appendChild(line);
+            
+            // Keep container scrolled
+            logTerminal.scrollTop = logTerminal.scrollHeight;
+            
+            // Limit lines count to 15
+            while (logTerminal.childNodes.length > 15) {
+                logTerminal.removeChild(logTerminal.firstChild);
+            }
+        }
+
+        // Initialize logs
+        logEntries.forEach(log => addLog(log.tag, log.text, log.type));
+
+        // Periodically inject new mock logs
+        setInterval(() => {
+            const roll = Math.random();
+            if (roll < 0.25) {
+                addLog("MONITOR", `System resources: CPU: ${Math.floor(Math.random()*15 + 5)}% | RAM: ${Math.floor(Math.random()*10 + 40)}%`, "success");
+            } else if (roll < 0.5) {
+                const randomPhone = "07" + Math.floor(Math.random()*90000000 + 10000000);
+                addLog("DARAJA-API", `STK Push prompt dispatched successfully to +254${randomPhone.substring(1, 4)}***${randomPhone.substring(7)}`, "info");
+            } else if (roll < 0.7) {
+                const txCodes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                let tx = "QE";
+                for(let i=0; i<8; i++) tx += txCodes.charAt(Math.floor(Math.random() * txCodes.length));
+                const cash = Math.floor(Math.random()*20 + 2)*150;
+                addLog("DARAJA-API", `STK validation successful. Trans: ${tx} | Amt: KSh ${cash.toLocaleString()}`, "success");
+            } else if (roll < 0.9) {
+                addLog("CRON", "Running weekly cleanups for expired session configurations.", "info");
+            } else {
+                addLog("AUTH-SERVICE", "JWT signature verified - payload validation OK", "success");
+            }
+        }, 3200);
+    </script>
 </body>
 </html>
